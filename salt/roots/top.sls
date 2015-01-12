@@ -1,4 +1,3 @@
 base:
   '*':
-    - sysctl
-    - secureserver
+    - secureserver.secureserver

@@ -27,6 +27,7 @@ Vagrant.configure("2") do |config|
                 box.vm.hostname = "#{hostname}.cook.book"
                 box.vm.network :private_network, ip: "172.16.0.#{ip_start+i}", :netmask => "255.255.0.0"
                 box.vm.synced_folder "salt/roots/", "/srv/salt/"
+                box.vm.synced_folder "salt/pillar/", "/srv/pillar/"
 
                 # If using Fusion
                 box.vm.provider :vmware_fusion do |v|
@@ -36,8 +37,6 @@ Vagrant.configure("2") do |config|
                     salt.minion_config = "salt/minion"
                     salt.install_type = "stable"
                     salt.always_install = true
-                    salt.colorize = true
-                    salt.run_highstate = true
                 end
             end
         end
