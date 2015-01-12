@@ -7,6 +7,13 @@ nodes = {
 
 Vagrant.configure("2") do |config|
     config.vm.box = "hashicorp/precise64"
+    
+    if Vagrant.has_plugin?("vagrant-cachier")
+        config.cache.scope = :box
+        config.cache.enable :apt
+    else
+        puts "[-] WARN: This would be much faster if you ran vagrant plugin install vagrant-cachier first"
+    end
 
     #Default is 2200..something, but port 2200 is used by forescout NAC agent.
     config.vm.usable_port_range= 2800..2900 
@@ -27,7 +34,7 @@ Vagrant.configure("2") do |config|
                 end
                 box.vm.provision :salt do |salt|
                     salt.minion_config = "salt/minion"
-                    salt.install_type = "git"
+                    salt.install_type = "stable"
                     salt.always_install = true
                     salt.colorize = true
                     salt.run_highstate = true
